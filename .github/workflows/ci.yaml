@@ -1,0 +1,336 @@
+# Priority: P1
+# Purpose:
+# Fast, deterministic quality gate for the AI Lab repository.
+#
+# Important:
+# This workflow DOES NOT execute every research notebook.
+# Some labs may require CUDA, large models, large datasets, or significant VRAM.
+
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+
+  # ===========================================================================
+  # P0 - Python quality gate
+  # ===========================================================================
+
+  quality:
+    name: Python Quality
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+
+      # -----------------------------------------------------------------------
+      # P0 - Checkout
+      # -----------------------------------------------------------------------
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+
+      # -----------------------------------------------------------------------
+      # P0 - Python
+      # Uses .python-version from repository root.
+      # -----------------------------------------------------------------------
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version-file: .python-version
+
+
+      # -----------------------------------------------------------------------
+      # P0 - uv
+      # -----------------------------------------------------------------------
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+
+
+      # -----------------------------------------------------------------------
+      # P0 - Dependency integrity
+      # -----------------------------------------------------------------------
+
+      - name: Synchronize environment
+        run: uv sync --locked
+
+
+      # -----------------------------------------------------------------------
+      # P1 - Lint
+      # -----------------------------------------------------------------------
+
+      - name: Ruff lint
+        run: uv run ruff check .
+
+
+      # -----------------------------------------------------------------------
+      # P1 - Formatting
+      # -----------------------------------------------------------------------
+
+      - name: Ruff format check
+        run: uv run ruff format --check .
+
+
+      # -----------------------------------------------------------------------
+      # P0 - Tests
+      # -----------------------------------------------------------------------
+
+      - name: Run tests
+        run: uv run pytest
+
+
+  # ===========================================================================
+  # P1 - Notebook structural validation
+  #
+  # Does not execute notebooks.
+  #
+  # Purpose:
+  # - detect corrupted .ipynb JSON
+  # - verify notebook schema basics
+  # - avoid accidentally committing empty/broken notebooks
+  # ===========================================================================
+
+  notebooks:
+    name: Notebook Validation
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+
+      - name: Validate notebook structure
+        shell: python
+        run: |
+          # P1 - Lightweight CI validation for Jupyter notebooks.
+
+          import json
+          import sys
+          from pathlib import Path
+
+
+          notebooks = sorted(Path("labs").rglob("*.ipynb"))
+
+          if not notebooks:
+              print("No notebooks found.")
+              raise SystemExit(0)
+
+
+          errors = []
+
+
+          for path in notebooks:
+
+              try:
+
+                  with path.open(
+                      "r",
+                      encoding="utf-8",
+                  ) as file:
+
+                      notebook = json.load(file)
+
+              except Exception as exc:
+
+                  errors.append(
+                      f"{path}: invalid JSON: {exc}"
+                  )
+
+                  continue
+
+
+              nbformat = notebook.get("nbformat")
+
+              cells = notebook.get("cells")
+
+
+              if not isinstance(nbformat, int):
+
+                  errors.append(
+                      f"{path}: missing or invalid nbformat"
+                  )
+
+
+              if not isinstance(cells, list):
+
+                  errors.append(
+                      f"{path}: missing cells list"
+                  )
+
+                  continue
+
+
+              if len(cells) == 0:
+
+                  errors.append(
+                      f"{path}: notebook contains no cells"
+                  )
+
+
+              for index, cell in enumerate(cells):
+
+                  cell_type = cell.get("cell_type")
+
+                  if cell_type not in {
+                      "markdown",
+                      "code",
+                      "raw",
+                  }:
+
+                      errors.append(
+                          f"{path}: cell {index} "
+                          f"has invalid type {cell_type!r}"
+                      )
+
+
+              print(
+                  f"OK  {path}  "
+                  f"cells={len(cells)}"
+              )
+
+
+          if errors:
+
+              print("\nNotebook validation failed:\n")
+
+              for error in errors:
+
+                  print(f"- {error}")
+
+              sys.exit(1)
+
+
+          print(
+              f"\nValidated {len(notebooks)} notebook(s)."
+          )
+
+
+  # ===========================================================================
+  # P1 - Dependency lock verification
+  # ===========================================================================
+
+  lock:
+    name: Dependency Lock
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+
+
+      - name: Verify uv.lock
+        run: uv lock --check
+
+
+  # ===========================================================================
+  # P1 - Docker Compose validation
+  #
+  # Validate configuration only.
+  # Avoid expensive PyTorch/container builds on every PR.
+  # ===========================================================================
+
+  docker:
+    name: Docker Configuration
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+
+      - name: Validate Docker Compose
+        run: docker compose config --quiet
+
+
+  # ===========================================================================
+  # P0 - Aggregate gate
+  #
+  # Useful later as the single required GitHub Branch Protection check.
+  # ===========================================================================
+
+  ci:
+    name: CI Passed
+    if: always()
+
+    needs:
+      - quality
+      - notebooks
+      - lock
+      - docker
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Verify required jobs
+        shell: bash
+        run: |
+          # P0 - Required CI gate.
+
+          if [[ "${{ needs.quality.result }}" != "success" ]]; then
+            echo "Python quality failed."
+            exit 1
+          fi
+
+          if [[ "${{ needs.notebooks.result }}" != "success" ]]; then
+            echo "Notebook validation failed."
+            exit 1
+          fi
+
+          if [[ "${{ needs.lock.result }}" != "success" ]]; then
+            echo "Dependency lock validation failed."
+            exit 1
+          fi
+
+          if [[ "${{ needs.docker.result }}" != "success" ]]; then
+            echo "Docker configuration validation failed."
+            exit 1
+          fi
+
+          echo "All required CI checks passed."

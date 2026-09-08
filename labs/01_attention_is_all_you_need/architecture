@@ -1,0 +1,19 @@
+01_attention_is_all_you_need/
+│
+├── README.md
+│
+├── notebooks/
+│   ├── 01_concept.ipynb
+│   ├── 02_from_scratch.ipynb
+│   ├── 03_experiment.ipynb
+│   └── 04_analysis.ipynb
+│
+├── docs/
+│   ├── paper-notes.md
+│   ├── engineering-notes.md
+│   ├── limitations.md
+│   └── questions.md
+│
+├── figures/
+│
+└── artifacts/

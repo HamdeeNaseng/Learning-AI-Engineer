@@ -1,0 +1,63 @@
+# P0: Python environment
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checker
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# P0 - Dataset policy (see AGENTS.md #28): do not commit large datasets.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# P0 - Model artifact policy (see AGENTS.md #29): do not commit weights.
+models/**/*.pt
+models/**/*.pth
+models/**/*.ckpt
+models/**/*.bin
+models/**/*.safetensors
+
+# P1 - Agent skills
+# Ignore all agent-generated/local skills except our repository custom skill.
+
+.agents/*
+
+# Keep skills directory traversable
+!.agents/skills/
+
+# Ignore all installed skills
+.agents/skills/*
+
+# Keep repository-owned Thai technical skill
+!.agents/skills/thai-technical-explainer/
+!.agents/skills/thai-technical-explainer/**
+.claude

@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "skills": {
+    "abi-stable": {
+      "source": "meta-pytorch/skills",
+      "sourceType": "github",
+      "skillPath": "skills/abi-stable/SKILL.md",
+      "computedHash": "786824b4bfc4839e07069031546aed77f679395f4411f065a840d26527afcf77"
+    },
+    "agents-are-coming": {
+      "source": "meta-pytorch/skills",
+      "sourceType": "github",
+      "skillPath": "skills/agents-are-coming/SKILL.md",
+      "computedHash": "84587e0312304d1f5cbf5f5989483b22a5dbf25a08d80c98cc4f169cf19ef16a"
+    },
+    "analyze-memory-snapshot": {
+      "source": "meta-pytorch/skills",
+      "sourceType": "github",
+      "skillPath": "skills/analyze-memory-snapshot/SKILL.md",
+      "computedHash": "30424f68f1f1ebd7cc9c2ef337985eb61a1eea1be7d7a3b482af0e882cedf696"
+    },
+    "debug-graph-breaks": {
+      "source": "meta-pytorch/skills",
+      "sourceType": "github",
+      "skillPath": "skills/debug-graph-breaks/SKILL.md",
+      "computedHash": "62127d2b51b01c041370423b334c30e5a3236a1df4318a5ca8a8675d58b696e8"
+    },
+    "download-research-references": {
+      "source": "osteele/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/download-research-references/SKILL.md",
+      "computedHash": "218c88c595a82e620b58aec90cdaafcb1edb00b238a2ca7a627e52e2671452bc"
+    },
+    "get-research-paper": {
+      "source": "aniketkrs/research-paper",
+      "sourceType": "github",
+      "skillPath": "skills/get-research-paper/SKILL.md",
+      "computedHash": "b5e063955dbfe078ad7f7ad61c5f0b26841165d8d8a8f7991aa30dd5b49d8f4b"
+    },
+    "profile-model": {
+      "source": "meta-pytorch/skills",
+      "sourceType": "github",
+      "skillPath": "skills/profile-model/SKILL.md",
+      "computedHash": "23c8f2713effe816d1a5224ac328f3d4a1d7065aab167be0b6bd3e4d507515ea"
+    },
+    "rag-blueprint": {
+      "source": "NVIDIA/skills",
+      "sourceType": "github",
+      "skillPath": "skills/rag-blueprint/SKILL.md",
+      "computedHash": "4621085caf70c1ab91cf321dcd97ed432e44150565c30f9b2d87bbb4a2b62dfe"
+    },
+    "read-research-paper": {
+      "source": "aniketkrs/research-paper",
+      "sourceType": "github",
+      "skillPath": "skills/read-research-paper/SKILL.md",
+      "computedHash": "ce22aac89c3acbac997dedebed235f3a542ba98be10338588076df16b50e9f84"
+    },
+    "research-lab-notebook": {
+      "source": "osteele/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/research-lab-notebook/SKILL.md",
+      "computedHash": "6965d8132e2ed0d3b57f1ce5de788eb27b910c8b4a7dfbbb9b8f4b6878396446"
+    },
+    "research-paper": {
+      "source": "aniketkrs/research-paper",
+      "sourceType": "github",
+      "skillPath": "skills/research-paper/SKILL.md",
+      "computedHash": "3c2e90ccbcfe69fcd816e03e8a014ef6954fd90d551b8474e0ae0b2c29beac3f"
+    }
+  }
+}

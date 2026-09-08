@@ -1,0 +1,66 @@
+ai-lab/
+│
+├── README.md                         # P0 - Repo map / learning roadmap
+├── pyproject.toml                    # P0 - Shared Python dependencies
+├── uv.lock                           # P0 - Reproducible environment
+├── .python-version                   # P0
+├── .gitignore                        # P0
+├── .dockerignore                     # P1
+├── .env.example                      # P1
+│
+├── Dockerfile                        # P1 - Jupyter environment
+├── compose.yaml                      # P1 - Reproducible lab runtime
+│
+├── .vscode/
+│   ├── settings.json                 # P0
+│   ├── extensions.json               # P1
+│   └── tasks.json                    # P2
+│
+├── docs/
+│   ├── roadmap.md                    # P1
+│   ├── concepts.md                   # P1 - cross-topic concepts
+│   └── glossary.md                   # P1
+│
+├── shared/
+│   ├── notebooks/                    # P2 shared notebook utilities
+│   ├── src/                          # P1 reusable Python code
+│   │   ├── visualization/
+│   │   ├── attention/
+│   │   ├── training/
+│   │   └── utils/
+│   └── datasets/                     # P2 tiny/sample datasets only
+│
+├── labs/
+│
+│   ├── 01_attention_is_all_you_need/
+│   │   ├── README.md
+│   │   ├── notebooks/
+│   │   │   ├── 01_attention_from_scratch.ipynb
+│   │   │   ├── 02_multi_head_attention.ipynb
+│   │   │   └── 03_transformer_block.ipynb
+│   │   │
+│   │   ├── docs/
+│   │   │   ├── paper-notes.md
+│   │   │   ├── engineering-notes.md
+│   │   │   └── questions.md
+│   │   │
+│   │   ├── figures/
+│   │   └── artifacts/
+│
+│   ├── 02_bert/
+│   │   ├── README.md
+│   │   ├── notebooks/
+│   │   ├── docs/
+│   │   ├── figures/
+│   │   └── artifacts/
+│
+│   ├── 03_gpt/
+│   ├── 04_gpt2/
+│   ├── 05_scaling_laws/
+│   └── ...
+│
+├── experiments/
+│   └── scratch/                      # P3 - Disposable experiments
+│
+└── tests/
+    └── shared/                       # P1 reusable utility tests

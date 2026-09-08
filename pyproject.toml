@@ -1,0 +1,94 @@
+# Priority: P0
+# Purpose: Single source of truth for Python project configuration.
+
+[project]
+name = "learning-ai-engineer"
+version = "0.1.0"
+description = "AI Research & Engineering Lab — papers to reproducible experiments"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+
+# -----------------------------------------------------------------------------
+# UV
+# -----------------------------------------------------------------------------
+
+[tool.uv]
+
+# P0: Force developers/CI to use the validated uv version.
+required-version = "==0.12.10"
+
+
+# -----------------------------------------------------------------------------
+# Ruff
+# -----------------------------------------------------------------------------
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["shared/src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "F",      # Pyflakes
+    "I",      # import sorting
+    "UP",     # pyupgrade
+    "B",      # bugbear
+    "SIM",    # simplification
+]
+
+ignore = []
+
+
+# -----------------------------------------------------------------------------
+# Pytest
+# -----------------------------------------------------------------------------
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["shared/src"]
+
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
+
+
+# -----------------------------------------------------------------------------
+# Coverage
+# -----------------------------------------------------------------------------
+
+[tool.coverage.run]
+source = ["shared/src"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+
+# -----------------------------------------------------------------------------
+# Mypy
+# -----------------------------------------------------------------------------
+
+[tool.mypy]
+python_version = "3.12"
+
+strict = true
+
+warn_unused_configs = true
+warn_return_any = true
+warn_unreachable = true
+
+files = ["shared/src", "tests"]
