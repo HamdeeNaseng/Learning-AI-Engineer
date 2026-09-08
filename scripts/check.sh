@@ -1,29 +1,29 @@
+#!/usr/bin/env bash
 # Priority: P1
 # Purpose: Local quality gate. Mirrors .github/workflows/ci.yaml, plus mypy.
+set -euo pipefail
 
-$ErrorActionPreference = "Stop"
-
-Write-Host "=== Ruff ==="
+echo "=== Ruff ==="
 uv run ruff check .
 
-Write-Host "=== Ruff Format ==="
+echo "=== Ruff Format ==="
 uv run ruff format --check .
 
-Write-Host "=== Mypy ==="
+echo "=== Mypy ==="
 # Paths come from [tool.mypy] files in pyproject.toml (shared/src, tests).
 uv run mypy
 
-Write-Host "=== Pytest ==="
+echo "=== Pytest ==="
 uv run pytest
 
-Write-Host "=== Notebook Validation ==="
+echo "=== Notebook Validation ==="
 uv run python scripts/validate_notebooks.py labs
 
-Write-Host "=== Dependency Lock ==="
+echo "=== Dependency Lock ==="
 uv lock --check
 
-Write-Host "=== Docker Compose Validation ==="
+echo "=== Docker Compose Validation ==="
 docker compose config --quiet
 
-Write-Host ""
-Write-Host "All checks passed."
+echo
+echo "All checks passed."

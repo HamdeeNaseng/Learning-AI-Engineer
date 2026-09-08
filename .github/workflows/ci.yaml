@@ -129,110 +129,14 @@ jobs:
           persist-credentials: false
 
 
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version-file: .python-version
+
+
       - name: Validate notebook structure
-        shell: python
-        run: |
-          # P1 - Lightweight CI validation for Jupyter notebooks.
-
-          import json
-          import sys
-          from pathlib import Path
-
-
-          notebooks = sorted(Path("labs").rglob("*.ipynb"))
-
-          if not notebooks:
-              print("No notebooks found.")
-              raise SystemExit(0)
-
-
-          errors = []
-
-
-          for path in notebooks:
-
-              try:
-
-                  with path.open(
-                      "r",
-                      encoding="utf-8",
-                  ) as file:
-
-                      notebook = json.load(file)
-
-              except Exception as exc:
-
-                  errors.append(
-                      f"{path}: invalid JSON: {exc}"
-                  )
-
-                  continue
-
-
-              nbformat = notebook.get("nbformat")
-
-              cells = notebook.get("cells")
-
-
-              if not isinstance(nbformat, int):
-
-                  errors.append(
-                      f"{path}: missing or invalid nbformat"
-                  )
-
-
-              if not isinstance(cells, list):
-
-                  errors.append(
-                      f"{path}: missing cells list"
-                  )
-
-                  continue
-
-
-              if len(cells) == 0:
-
-                  errors.append(
-                      f"{path}: notebook contains no cells"
-                  )
-
-
-              for index, cell in enumerate(cells):
-
-                  cell_type = cell.get("cell_type")
-
-                  if cell_type not in {
-                      "markdown",
-                      "code",
-                      "raw",
-                  }:
-
-                      errors.append(
-                          f"{path}: cell {index} "
-                          f"has invalid type {cell_type!r}"
-                      )
-
-
-              print(
-                  f"OK  {path}  "
-                  f"cells={len(cells)}"
-              )
-
-
-          if errors:
-
-              print("\nNotebook validation failed:\n")
-
-              for error in errors:
-
-                  print(f"- {error}")
-
-              sys.exit(1)
-
-
-          print(
-              f"\nValidated {len(notebooks)} notebook(s)."
-          )
+        run: python scripts/validate_notebooks.py labs
 
 
   # ===========================================================================
