@@ -161,17 +161,19 @@ gradient ของ softmax แปรตาม `p × (1-p)` โดย `p` คื�
 ```python
 import math
 
+
 def softmax(xs):
-    m = max(xs)                                  # ลบ max กัน overflow (หัวข้อ 5)
+    m = max(xs)  # ลบ max กัน overflow (หัวข้อ 5)
     exps = [math.exp(x - m) for x in xs]
     total = sum(exps)
     return [e / total for e in exps]
 
+
 # ลองเปลี่ยนตัวเลขดู แล้วสังเกตว่าผลลัพธ์เปลี่ยนยังไง
-print(softmax([2.0, 0.0, 1.0]))       # พื้นฐาน
-print(softmax([20.0, 0.0, 10.0]))     # คูณ 10 -> คมขึ้นมาก
-print(softmax([0.2, 0.0, 0.1]))       # หาร 10 -> แบนราบ
-print(softmax([2.0, 2.0, 2.0]))       # เท่ากันหมด -> แบ่งเท่ากัน
+print(softmax([2.0, 0.0, 1.0]))  # พื้นฐาน
+print(softmax([20.0, 0.0, 10.0]))  # คูณ 10 -> คมขึ้นมาก
+print(softmax([0.2, 0.0, 0.1]))  # หาร 10 -> แบนราบ
+print(softmax([2.0, 2.0, 2.0]))  # เท่ากันหมด -> แบ่งเท่ากัน
 ```
 
 **คำถามชวนคิด:** ถ้าคะแนนทุกตัวเท่ากันหมด softmax จะให้ผลอะไร? แล้วมันสมเหตุสมผลไหม
