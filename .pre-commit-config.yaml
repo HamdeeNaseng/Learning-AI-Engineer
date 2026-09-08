@@ -3,8 +3,10 @@
 
 repos:
 
+  # Keep this rev in sync with the ruff version resolved in uv.lock,
+  # otherwise pre-commit and CI can disagree on lint/format results.
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.0
+    rev: v0.16.6
 
     hooks:
 
