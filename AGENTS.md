@@ -267,6 +267,83 @@ Do not explain mathematical notation independently from implementation when the 
 
 ---
 
+## Visualization
+
+Preferred skills:
+
+```text
+data-visualization
+matplotlib
+```
+
+Routing:
+
+```text
+Visualization Task
+      ↓
+data-visualization
+      ↓
+choose correct visual representation
+      ↓
+matplotlib
+      ↓
+implement scientific visualization
+      ↓
+thai-technical-explainer
+      ↓
+explain what the figure means
+```
+
+`data-visualization` decides the right chart for the data (trend → line, comparison → bar,
+distribution → histogram/box plot, correlation → scatter/heatmap) and applies accessibility/design
+principles. `matplotlib` implements it — scientific plots, heatmaps, multi-panel figures, export to
+PNG/PDF/SVG, and `%matplotlib widget` / `ipympl` for interactive Jupyter. `thai-technical-explainer`
+then explains what the resulting figure shows, per the [Thai Technical Explanation](#thai-technical-explanation) rules.
+
+Examples:
+
+```text
+visualize attention matrix
+```
+
+```text
+matplotlib
++
+thai-technical-explainer
+```
+
+```text
+compare FlashAttention latency across sequence lengths
+```
+
+```text
+benchmarking
++
+data-visualization
++
+matplotlib
++
+thai-technical-explainer
+```
+
+```text
+visualize RoPE rotation
+```
+
+```text
+math-explainer
++
+matplotlib
++
+thai-technical-explainer
+```
+
+For tabular experiment results (metrics, correlation, distribution, time series, regression,
+benchmark analysis) that need both statistics and charts, prefer `data-analysis` instead of
+composing `matplotlib` by hand.
+
+---
+
 ## Experiment Design
 
 Preferred skills:

@@ -19,6 +19,18 @@
       "skillPath": "skills/analyze-memory-snapshot/SKILL.md",
       "computedHash": "30424f68f1f1ebd7cc9c2ef337985eb61a1eea1be7d7a3b482af0e882cedf696"
     },
+    "data-analysis": {
+      "source": "JPeetz/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/data/data-analysis/SKILL.md",
+      "computedHash": "3050494b3b6fe0586269005e8b7636b236b10dbc88423c0d1a7debd9a51046e2"
+    },
+    "data-visualization": {
+      "source": "anthropics/knowledge-work-plugins",
+      "sourceType": "github",
+      "skillPath": "data/skills/data-visualization/SKILL.md",
+      "computedHash": "a238cd5981b2da6bd7ecc24cfb3d7238be993ee5a2ad97acb414f9758aba13dd"
+    },
     "debug-graph-breaks": {
       "source": "meta-pytorch/skills",
       "sourceType": "github",
@@ -36,6 +48,12 @@
       "sourceType": "github",
       "skillPath": "skills/get-research-paper/SKILL.md",
       "computedHash": "b5e063955dbfe078ad7f7ad61c5f0b26841165d8d8a8f7991aa30dd5b49d8f4b"
+    },
+    "matplotlib": {
+      "source": "K-Dense-AI/scientific-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/matplotlib/SKILL.md",
+      "computedHash": "c0e9d5c7a4982e941180fb985b03f3ff3cf3ffe28d9d450c3ca5126673821c62"
     },
     "profile-model": {
       "source": "meta-pytorch/skills",

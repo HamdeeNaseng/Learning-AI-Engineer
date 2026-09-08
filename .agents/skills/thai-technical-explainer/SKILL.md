@@ -98,6 +98,31 @@ Example:
 → Attention
 → [B, T, D]
 
+## Metaphor Usage
+
+Add a metaphor (analogy to something outside AI/ML) only when the
+content is both difficult and long — e.g. a multi-step derivation,
+an architecture with several interacting components, or a concept
+that is easy to misunderstand intuitively.
+
+Do not use metaphors for:
+
+- Short explanations
+- Simple definitions
+- Concepts that are already clear from the mathematical or code
+  explanation alone
+
+When a metaphor is warranted:
+
+1. Give the real technical explanation first (per Explanation
+   Strategy above).
+2. Then add the metaphor as a supplementary aid, clearly framed as
+   an analogy (e.g. "เปรียบเทียบให้เห็นภาพ:" / "ลองนึกภาพว่า...").
+3. Keep the metaphor short — a few sentences, not a parallel
+   narrative.
+4. Map the metaphor's parts explicitly back to the technical
+   concept so it does not replace precision with vagueness.
+
 ## Teaching Style
 
 Assume the reader is technically literate.
