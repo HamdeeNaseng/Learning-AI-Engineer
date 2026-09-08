@@ -17,6 +17,11 @@
 4. ที่ n < d ผู้เขียนอ้างว่า self-attention เร็วกว่า recurrent layer — จุดตัด (crossover point)
    ที่ n เริ่มมากกว่า d จนทำให้ recurrent/convolutional คุ้มกว่าอยู่ที่ sequence length เท่าไหร่
    ในทางปฏิบัติบน hardware ปัจจุบัน?
+   **ตอบบางส่วนแล้ว** ใน [`../notebooks/04_analysis.ipynb`](../notebooks/04_analysis.ipynb) หัวข้อ 2:
+   เชิง operation-count ล้วน (ไม่นับผลของ parallelization) crossover อยู่ที่ `n = d` พอดี (แก้จาก
+   `n²d = nd²`) แต่นี่เป็นการวิเคราะห์เชิงทฤษฎีจากสูตร Big-O เท่านั้น **ยังไม่ได้วัด latency จริงบน
+   hardware** ซึ่งต้องพึ่ง benchmark จริง (เชื่อมกับคำถามข้อ 5 ด้านล่าง) — ส่วน "ในทางปฏิบัติ" ของคำถามนี้
+   จึงยังเปิดอยู่
 5. O(n²·d) complexity หมายถึงต้นทุนจะโตเร็วแค่ไหนเมื่อ context length เพิ่มจาก 512 → 4096 → 32768?
    ควรวัดจริงด้วย benchmark (latency, VRAM) แทนการคำนวณ complexity เชิงทฤษฎีอย่างเดียว
    (เชื่อมโยงกับ lab 18_flashattention, 19_flashattention2)
@@ -31,5 +36,7 @@
 
 ## สถานะ
 
-ยังไม่มีคำถามใดถูกทดลองตอบใน lab นี้ — รอ implementation ใน `notebook/` ก่อนจึงจะสามารถออกแบบ
-experiment เพื่อตอบคำถามข้างต้นได้ (ดู [engineering-notes.md](engineering-notes.md) สำหรับบริบท)
+Implementation และ experiment ใน `notebooks/01`–`04` เสร็จสมบูรณ์แล้ว คำถามข้อ 4 ตอบได้บางส่วน
+(เชิงทฤษฎี) ส่วนคำถามข้อ 1–3, 5–7 ยังเปิดอยู่ทั้งหมด เพราะต้องมี trained model จริงหรือ benchmark
+บน hardware จริง ซึ่งอยู่นอกขอบเขตของ lab นี้ (ดู [engineering-notes.md](engineering-notes.md)
+และ [`../notebooks/04_analysis.ipynb`](../notebooks/04_analysis.ipynb) สำหรับบริบทเต็ม)
